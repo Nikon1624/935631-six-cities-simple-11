@@ -17,6 +17,6 @@
 /css
 /fonts
 /img
-index.html
+main.html
 Readme.md
 ```
