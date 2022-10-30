@@ -1,13 +1,15 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import { AppRoute } from '../../types/AppRoute';
 
 export const Header: React.FC = () => (
   <header className="header">
     <div className="container">
       <div className="header__wrapper">
         <div className="header__left">
-          <a href="/some" className="header__logo-link header__logo-link--active">
+          <Link to={AppRoute.Root} className="header__logo-link header__logo-link--active">
             <img className="header__logo" src={`${process.env.PUBLIC_URL}/img/logo.svg`} alt="6 cities logo" width="81" height="41" />
-          </a>
+          </Link>
         </div>
         <nav className="header__nav">
           <ul className="header__nav-list">
@@ -18,9 +20,9 @@ export const Header: React.FC = () => (
               </div>
             </li>
             <li className="header__nav-item">
-              <a className="header__nav-link" href="/some">
+              <Link className="header__nav-link" to={AppRoute.Login}>
                 <span className="header__signout">Sign out</span>
-              </a>
+              </Link>
             </li>
           </ul>
         </nav>

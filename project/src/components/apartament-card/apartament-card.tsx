@@ -1,18 +1,13 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import { AppRoute } from '../../types/AppRoute';
+import { ApartamentCardType } from '../../types/CardTypes';
 
-export type ApartamentCardProps = {
-  mark?: string;
-  url: string;
-  imgUrl: string;
-  price: number;
-  ratingPercent: number;
-  description: string;
-  type: string;
-};
+export type ApartamentCardProps = ApartamentCardType;
 
 export const ApartamentCard: React.FC<ApartamentCardProps> = ({
   mark,
-  url,
+  id,
   imgUrl,
   price,
   ratingPercent,
@@ -22,9 +17,9 @@ export const ApartamentCard: React.FC<ApartamentCardProps> = ({
   <article className="cities__card place-card">
     { mark && <div className="place-card__mark"><span>{ mark }</span></div> }
     <div className="cities__image-wrapper place-card__image-wrapper">
-      <a href={url}>
-        <img className="place-card__image" src={`${process.env.PUBLIC_URL}${imgUrl}`} width="260" height="200" alt="Place" />
-      </a>
+      <Link to={`${AppRoute.Offer}/${id}`}>
+        <img className="place-card__image" src={imgUrl} width="260" height="200" alt="Place" />
+      </Link>
     </div>
     <div className="place-card__info">
       <div className="place-card__price-wrapper">
@@ -41,7 +36,7 @@ export const ApartamentCard: React.FC<ApartamentCardProps> = ({
         </div>
       </div>
       <h2 className="place-card__name">
-        <a href={url}>{ description }</a>
+        <Link to={`${AppRoute.Offer}/${id}`}>{ description }</Link>
       </h2>
       <p className="place-card__type">{ type }</p>
     </div>
