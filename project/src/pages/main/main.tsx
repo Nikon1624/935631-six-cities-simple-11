@@ -1,57 +1,13 @@
 import React from 'react';
-import { ApartamentCard } from '../../components/apartament-card/apartament-card';
-import { ApartamentCardType } from '../../types/CardTypes';
-
-const apartamentList: ApartamentCardType[] = [
-  {
-    mark: 'Premium',
-    id: 1,
-    imgUrl: '/img/apartment-01.jpg',
-    type: 'Apartment',
-    description: 'Beautiful &amp; luxurious apartment at great location',
-    price: 120,
-    ratingPercent: 80,
-  },
-  {
-    id: 2,
-    imgUrl: '/img/room.jpg',
-    type: 'Private room',
-    description: 'Wood and stone place',
-    price: 80,
-    ratingPercent: 80,
-  },
-  {
-    id: 3,
-    imgUrl: '/img/apartment-02.jpg',
-    type: 'Apartment',
-    description: 'Canal View Prinsengracht',
-    price: 132,
-    ratingPercent: 80,
-  },
-  {
-    mark: 'Premium',
-    id: 4,
-    imgUrl: '/img/apartment-03.jpg',
-    type: 'Apartment',
-    description: 'Nice, cozy, warm big bed apartment',
-    price: 180,
-    ratingPercent: 100,
-  },
-  {
-    id: 5,
-    imgUrl: '/img/room.jpg',
-    type: 'Private room',
-    description: 'Wood and stone place',
-    price: 80,
-    ratingPercent: 80,
-  },
-];
+import { ApartamentList } from '../../components/apartament-list/apartament-list';
+import { ApartamentCardType } from '../../types/card-types';
 
 type MainProps = {
   availablePlaceCount: number;
+  apartamentList: ApartamentCardType[];
 };
 
-export const Main: React.FC<MainProps> = ({ availablePlaceCount }) => (
+export const Main: React.FC<MainProps> = ({ availablePlaceCount, apartamentList }) => (
   <div className="cities">
     <div className="cities__places-container container">
       <section className="cities__places places">
@@ -72,11 +28,7 @@ export const Main: React.FC<MainProps> = ({ availablePlaceCount }) => (
             <li className="places__option" tabIndex={0}>Top rated first</li>
           </ul>
         </form>
-        <div className="cities__places-list places__list tabs__content">
-          {
-            apartamentList.map((apartamentData) => <ApartamentCard { ...apartamentData } key={apartamentData.id} />)
-          }
-        </div>
+        <ApartamentList apartamentList={apartamentList} />
       </section>
       <div className="cities__right-section">
         <section className="cities__map map" />
