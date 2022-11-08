@@ -9,4 +9,7 @@ export type ApartamentCardType = {
   description: string;
   coordinates: PointType;
   type: string;
+  nearPlaces: NearPlaceType[];
 };
+
+export type NearPlaceType = Omit<ApartamentCardType, 'nearPlaces'>;

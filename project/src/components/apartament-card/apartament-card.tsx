@@ -2,12 +2,13 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../types/app-route';
 import { ApartamentCardType } from '../../types/card-types';
+import { NearPlaceType } from '../../types/card-types';
 import { PointType } from '../../types/city-types';
 
 export type ApartamentCardProps = {
   onMouseEnter: (point: PointType) => void;
   onMouseLeave: () => void;
-} & ApartamentCardType;
+} & (ApartamentCardType | NearPlaceType);
 
 export const ApartamentCard: React.FC<ApartamentCardProps> = ({
   mark,

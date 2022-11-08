@@ -1,4 +1,5 @@
-import React, { useState, useCallback } from 'react';
+import React, { useCallback } from 'react';
+import { useActiveOnMouseEvents } from '../../hooks/useActiveOnMouseEvents';
 import { ApartamentList } from '../../components/apartament-list/apartament-list';
 import { Map } from '../../components/map/map';
 import { ApartamentCardType } from '../../types/card-types';
@@ -11,15 +12,15 @@ type MainProps = {
 };
 
 export const Main: React.FC<MainProps> = ({ availablePlaceCount, apartamentList, city }) => {
-  const [activeCard, setActiveCard] = useState<PointType | undefined>(undefined);
+  const [active, onMouseEnter, onMouseLeave] = useActiveOnMouseEvents<PointType>(null);
 
   const handleMouseEnter = useCallback((point: PointType) => {
-    setActiveCard(point);
-  }, []);
+    onMouseEnter(point);
+  }, [onMouseEnter]);
 
   const handleMouseLeave = useCallback(() => {
-    setActiveCard(undefined);
-  }, []);
+    onMouseLeave();
+  }, [onMouseLeave]);
 
   const placePoints = apartamentList.reduce<PointsType>((acc, appartament) => ([...acc, appartament.coordinates]), []);
 
@@ -46,7 +47,11 @@ export const Main: React.FC<MainProps> = ({ availablePlaceCount, apartamentList,
           </form>
           <ApartamentList apartamentList={apartamentList} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} />
         </section>
-        <Map city={city} points={placePoints} selectedPoint={activeCard} />
+        <div className="cities__right-section">
+          <section className="cities__map map">
+            <Map city={city} points={placePoints} selectedPoint={active} />
+          </section>
+        </div>
       </div>
     </div>
   );
