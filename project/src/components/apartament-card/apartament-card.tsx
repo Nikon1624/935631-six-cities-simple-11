@@ -2,9 +2,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../types/app-route';
 import { ApartamentCardType } from '../../types/card-types';
+import { PointType } from '../../types/city-types';
 
 export type ApartamentCardProps = {
-  onMouseEnter: (id: number) => void;
+  onMouseEnter: (point: PointType) => void;
   onMouseLeave: () => void;
 } & ApartamentCardType;
 
@@ -18,9 +19,10 @@ export const ApartamentCard: React.FC<ApartamentCardProps> = ({
   type,
   onMouseEnter,
   onMouseLeave,
+  coordinates,
 }) => {
   const handleMouseEnter = () => {
-    onMouseEnter(id);
+    onMouseEnter(coordinates);
   };
 
   const handleMouseLeave = () => {
