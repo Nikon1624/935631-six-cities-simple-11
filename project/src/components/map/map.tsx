@@ -8,7 +8,7 @@ import 'leaflet/dist/leaflet.css';
 type MapProps = {
   city: CityType;
   points: PointsType;
-  selectedPoint: PointType | undefined;
+  selectedPoint: PointType | null;
 };
 
 const defaultCustomIcon = new Icon({
@@ -37,7 +37,7 @@ export const Map: React.FC<MapProps> = ({ city, points, selectedPoint }) => {
 
         marker
           .setIcon(
-            selectedPoint !== undefined && point.id === selectedPoint.id
+            selectedPoint && point.id === selectedPoint.id
               ? currentCustomIcon
               : defaultCustomIcon
           )
@@ -47,8 +47,6 @@ export const Map: React.FC<MapProps> = ({ city, points, selectedPoint }) => {
   }, [map, points, selectedPoint]);
 
   return (
-    <div className="cities__right-section">
-      <section className="cities__map map" ref={mapRef} />
-    </div>
+    <div ref={mapRef} style={{ height: '100%' }} />
   );
 };

@@ -21,7 +21,7 @@ function App(): JSX.Element {
           <Route index element={<Login />} />
         </Route>
         <Route path={`${AppRoute.Offer}`} element={<WithoutCitiesLayout />}>
-          <Route path=":id" element={<PlaceDetails />} />
+          <Route path=":id" element={<PlaceDetails city={city} apartamentList={apartamentList} />} />
         </Route>
         <Route path="*" element={<LoginLayout />}>
           <Route path="*" element={<NotFound />} />
