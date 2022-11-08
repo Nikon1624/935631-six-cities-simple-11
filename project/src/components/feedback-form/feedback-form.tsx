@@ -41,7 +41,7 @@ export const FeedbackForm = () => {
 
   const handleRatingChange = useCallback((id: number) => {
     setFormData({ ...formData, reviewRating: id });
-  }, []);
+  }, [formData]);
 
   const handleReviewTextChange = (evt: ChangeEvent<HTMLTextAreaElement>) => {
     const message = evt.target.value;

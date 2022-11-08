@@ -8,13 +8,14 @@ import { Login } from '../../pages/login/login';
 import { PlaceDetails } from '../../pages/place-details/place-details';
 import { NotFound } from '../../pages/not-found/not-found';
 import { apartamentList } from '../../mocks/offers';
+import { city } from '../../mocks/city';
 
 function App(): JSX.Element {
   return (
     <BrowserRouter>
       <Routes>
         <Route path={AppRoute.Root} element={<DefaultLayout />}>
-          <Route index element={<Main availablePlaceCount={5} apartamentList={apartamentList} />} />
+          <Route index element={<Main availablePlaceCount={5} apartamentList={apartamentList} city={city} />} />
         </Route>
         <Route path={AppRoute.Login} element={<LoginLayout />}>
           <Route index element={<Login />} />
