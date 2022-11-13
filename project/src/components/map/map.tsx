@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 import { Icon, Marker } from 'leaflet';
-import { useMap } from '../../hooks/useMap';
+import { useMap } from '../../hooks/use-map';
 import { CityType, PointType, PointsType } from '../../types/city-types';
 import { URL_MARKER_CURRENT, URL_MARKER_DEFAULT } from '../../const';
 import 'leaflet/dist/leaflet.css';
@@ -29,6 +29,7 @@ export const Map: React.FC<MapProps> = ({ city, points, selectedPoint }) => {
 
   useEffect(() => {
     if (map) {
+      map.flyTo([city.lat, city.lng], 10);
       points.forEach((point) => {
         const marker = new Marker({
           lat: point.lat,
@@ -44,7 +45,7 @@ export const Map: React.FC<MapProps> = ({ city, points, selectedPoint }) => {
           .addTo(map);
       });
     }
-  }, [map, points, selectedPoint]);
+  }, [map, points, selectedPoint, city]);
 
   return (
     <div ref={mapRef} style={{ height: '100%' }} />

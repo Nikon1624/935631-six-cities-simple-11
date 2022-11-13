@@ -1,26 +1,62 @@
-import React, { useCallback } from 'react';
-import { useActiveOnMouseEvents } from '../../hooks/useActiveOnMouseEvents';
+import React, { useCallback, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import { useAppSelector } from '../../hooks/index';
+import { useAppDispatch } from '../../hooks/index';
+import { useActiveItem } from '../../hooks/use-active-item';
 import { ApartamentList } from '../../components/apartament-list/apartament-list';
 import { Map } from '../../components/map/map';
-import { ApartamentCardType } from '../../types/card-types';
-import { CityType, PointType, PointsType } from '../../types/city-types';
+import { OptionSelector } from '../../components/option-selector/option-selector';
+import { PointType, PointsType } from '../../types/city-types';
+import { changeActiveCity } from '../../store/actions';
+import { OptionSelectorType } from '../../types/option-selector-types';
 
-type MainProps = {
-  availablePlaceCount: number;
-  apartamentList: ApartamentCardType[];
-  city: CityType;
-};
+const initialSelectOptions: OptionSelectorType[] = [
+  {
+    id: 1,
+    title: 'Popular',
+    isActive: true,
+  },
+  {
+    id: 2,
+    title: 'Price: low to high',
+    isActive: false,
+  },
+  {
+    id: 3,
+    title: 'Price: high to low',
+    isActive: false,
+  },
+  {
+    id: 4,
+    title: 'Top rated first',
+    isActive: false,
+  },
+];
 
-export const Main: React.FC<MainProps> = ({ availablePlaceCount, apartamentList, city }) => {
-  const [active, onMouseEnter, onMouseLeave] = useActiveOnMouseEvents<PointType>(null);
+export const Main: React.FC = () => {
+  const city = useAppSelector((state) => state.activeCity);
+  const apartamentList = useAppSelector((state) => state.offers);
+  const dispatch = useAppDispatch();
+  const [selectOptions, changeSelectOptions] = useActiveItem<OptionSelectorType[]>(initialSelectOptions);
+  const [activePoint, changeActivePoint] = useActiveItem<PointType | null>(null);
+  const { id } = useParams();
 
-  const handleMouseEnter = useCallback((point: PointType) => {
-    onMouseEnter(point);
-  }, [onMouseEnter]);
+  useEffect(() => {
+    dispatch(changeActiveCity({ id }));
+  }, [id]);
 
-  const handleMouseLeave = useCallback(() => {
-    onMouseLeave();
-  }, [onMouseLeave]);
+  const onMouseEnter = useCallback((point: PointType) => {
+    changeActivePoint(point);
+  }, [changeActivePoint]);
+
+  const onMouseLeave = useCallback(() => {
+    changeActivePoint(null);
+  }, [changeActivePoint]);
+
+  const onChangeActiveSelectorOption = useCallback((optionId: number) => {
+    const newSelectOptions = selectOptions.map((option) => option.id === optionId ? { ...option, isActive: !option.isActive } : { ...option, isActive: false });
+    changeSelectOptions(newSelectOptions);
+  }, [changeSelectOptions]);
 
   const placePoints = apartamentList.reduce<PointsType>((acc, appartament) => ([...acc, appartament.coordinates]), []);
 
@@ -29,27 +65,13 @@ export const Main: React.FC<MainProps> = ({ availablePlaceCount, apartamentList,
       <div className="cities__places-container container">
         <section className="cities__places places">
           <h2 className="visually-hidden">Places</h2>
-          <b className="places__found">{ availablePlaceCount } places to stay in Amsterdam</b>
-          <form className="places__sorting" action="#" method="get">
-            <span className="places__sorting-caption">Sort by</span>
-            <span className="places__sorting-type" tabIndex={0}>
-              Popular
-              <svg className="places__sorting-arrow" width="7" height="4">
-                <use xlinkHref="#icon-arrow-select" />
-              </svg>
-            </span>
-            <ul className="places__options places__options--custom places__options--opened">
-              <li className="places__option places__option--active" tabIndex={0}>Popular</li>
-              <li className="places__option" tabIndex={0}>Price: low to high</li>
-              <li className="places__option" tabIndex={0}>Price: high to low</li>
-              <li className="places__option" tabIndex={0}>Top rated first</li>
-            </ul>
-          </form>
-          <ApartamentList apartamentList={apartamentList} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} />
+          <b className="places__found">{ apartamentList.length } places to stay in { city.title }</b>
+          <OptionSelector options={selectOptions} onChange={onChangeActiveSelectorOption} />
+          <ApartamentList apartamentList={apartamentList} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} />
         </section>
         <div className="cities__right-section">
           <section className="cities__map map">
-            <Map city={city} points={placePoints} selectedPoint={active} />
+            <Map city={city} points={placePoints} selectedPoint={activePoint} />
           </section>
         </div>
       </div>
