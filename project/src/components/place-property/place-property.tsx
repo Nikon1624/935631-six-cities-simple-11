@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { useActiveOnMouseEvents } from '../../hooks/useActiveOnMouseEvents';
+import { useActiveItem } from '../../hooks/use-active-item';
 import { ImageGallery } from '../image-gallery/image-gallery';
 import { PlaceDescription } from './place-description/place-description';
 import { PlaceHost } from './place-host/place-host';
@@ -15,16 +15,16 @@ type PlacePropertyProps = {
 };
 
 export const PlaceProperty: React.FC<PlacePropertyProps> = ({ city, placeData }) => {
-  const [active, onMouseEnter, onMouseLeave] = useActiveOnMouseEvents<PointType>(null);
+  const [activeItem, changeActiveItem] = useActiveItem<PointType | null>(null);
   const nearPlacesCoordinates = placeData.nearPlaces.reduce<PointsType>((acc, place) => [...acc, place.coordinates], []);
 
   const handleMouseEnter = useCallback((point: PointType) => {
-    onMouseEnter(point);
-  }, [onMouseEnter]);
+    changeActiveItem(point);
+  }, [changeActiveItem]);
 
   const handleMouseLeave = useCallback(() => {
-    onMouseLeave();
-  }, [onMouseLeave]);
+    changeActiveItem(null);
+  }, [changeActiveItem]);
 
   return (
     <>
@@ -38,7 +38,7 @@ export const PlaceProperty: React.FC<PlacePropertyProps> = ({ city, placeData })
           </div>
         </div>
         <section className="property__map map">
-          <Map city={city} points={nearPlacesCoordinates} selectedPoint={active} />
+          <Map city={city} points={nearPlacesCoordinates} selectedPoint={activeItem} />
         </section>
       </section>
       <NearPlaces nearPlaceList={placeData.nearPlaces} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} />
