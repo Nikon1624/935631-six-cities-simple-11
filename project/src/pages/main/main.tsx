@@ -6,7 +6,7 @@ import { useActiveItem } from '../../hooks/use-active-item';
 import { ApartamentList } from '../../components/apartament-list/apartament-list';
 import { Map } from '../../components/map/map';
 import { OptionSelector } from '../../components/option-selector/option-selector';
-import { PointType, PointsType } from '../../types/city-types';
+import { PointType } from '../../types/city-types';
 import { changeActiveCity } from '../../store/actions';
 import { OptionSelectorType } from '../../types/option-selector-types';
 
@@ -43,7 +43,7 @@ export const Main: React.FC = () => {
 
   useEffect(() => {
     dispatch(changeActiveCity({ id }));
-  }, [id]);
+  }, [id, dispatch]);
 
   const onMouseEnter = useCallback((point: PointType) => {
     changeActivePoint(point);
@@ -56,9 +56,9 @@ export const Main: React.FC = () => {
   const onChangeActiveSelectorOption = useCallback((optionId: number) => {
     const newSelectOptions = selectOptions.map((option) => option.id === optionId ? { ...option, isActive: !option.isActive } : { ...option, isActive: false });
     changeSelectOptions(newSelectOptions);
-  }, [changeSelectOptions]);
+  }, [changeSelectOptions, selectOptions]);
 
-  const placePoints = apartamentList.reduce<PointsType>((acc, appartament) => ([...acc, appartament.coordinates]), []);
+  const placePoints = apartamentList.map((appartament) => appartament.coordinates);
 
   return (
     <div className="cities">
