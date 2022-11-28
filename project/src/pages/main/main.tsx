@@ -5,10 +5,13 @@ import { useAppDispatch } from '../../hooks/index';
 import { useActiveItem } from '../../hooks/use-active-item';
 import { ApartamentList } from '../../components/apartament-list/apartament-list';
 import { Map } from '../../components/map/map';
-import { OptionSelector } from '../../components/option-selector/option-selector';
-import { PointType } from '../../types/city-types';
+import OptionSelector from '../../components/option-selector/option-selector';
+import { Loader } from '../../components/loader/loader';
+import { City, Point } from '../../types/offer-types';
 import { changeActiveCity } from '../../store/actions';
 import { OptionSelectorType } from '../../types/option-selector-types';
+import { getCity, getOfferPoints, getOffers, getCityById, getLoadingStatus } from '../../store/selectors';
+
 
 const initialSelectOptions: OptionSelectorType[] = [
   {
@@ -34,18 +37,21 @@ const initialSelectOptions: OptionSelectorType[] = [
 ];
 
 export const Main: React.FC = () => {
-  const city = useAppSelector((state) => state.activeCity);
-  const apartamentList = useAppSelector((state) => state.offers);
-  const dispatch = useAppDispatch();
-  const [selectOptions, changeSelectOptions] = useActiveItem<OptionSelectorType[]>(initialSelectOptions);
-  const [activePoint, changeActivePoint] = useActiveItem<PointType | null>(null);
   const { id } = useParams();
+  const dispatch = useAppDispatch();
+  const loadingStatus = useAppSelector(getLoadingStatus);
+  const city = useAppSelector(getCity);
+  const cityById = useAppSelector(getCityById(id));
+  const offers = useAppSelector(getOffers);
+  const offerPoints = useAppSelector(getOfferPoints);
+  const [selectOptions, changeSelectOptions] = useActiveItem<OptionSelectorType[]>(initialSelectOptions);
+  const [activePoint, changeActivePoint] = useActiveItem<Point | null>(null);
 
   useEffect(() => {
-    dispatch(changeActiveCity({ id }));
-  }, [id, dispatch]);
+    dispatch(changeActiveCity(cityById));
+  }, [cityById, dispatch]);
 
-  const onMouseEnter = useCallback((point: PointType) => {
+  const onMouseEnter = useCallback((point: Point) => {
     changeActivePoint(point);
   }, [changeActivePoint]);
 
@@ -58,20 +64,22 @@ export const Main: React.FC = () => {
     changeSelectOptions(newSelectOptions);
   }, [changeSelectOptions, selectOptions]);
 
-  const placePoints = apartamentList.map((appartament) => appartament.coordinates);
+  if (loadingStatus) {
+    return <Loader />;
+  }
 
   return (
     <div className="cities">
       <div className="cities__places-container container">
         <section className="cities__places places">
           <h2 className="visually-hidden">Places</h2>
-          <b className="places__found">{ apartamentList.length } places to stay in { city.title }</b>
+          <b className="places__found">{ offers.length } places to stay in { city && city.name }</b>
           <OptionSelector options={selectOptions} onChange={onChangeActiveSelectorOption} />
-          <ApartamentList apartamentList={apartamentList} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} />
+          <ApartamentList apartamentList={offers} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} />
         </section>
         <div className="cities__right-section">
           <section className="cities__map map">
-            <Map city={city} points={placePoints} selectedPoint={activePoint} />
+            <Map city={city as City} points={offerPoints} selectedPoint={activePoint} />
           </section>
         </div>
       </div>

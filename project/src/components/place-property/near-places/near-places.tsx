@@ -1,11 +1,10 @@
 import React from 'react';
 import { ApartamentCard } from '../../apartament-card/apartament-card';
-import { NearPlaceType } from '../../../types/card-types';
-import { PointType } from '../../../types/city-types';
+import { Point, Offer } from '../../../types/offer-types';
 
 type NearPlacesProps = {
-  nearPlaceList: NearPlaceType[];
-  onMouseEnter: (point: PointType) => void;
+  nearPlaceList: Offer[];
+  onMouseEnter: (point: Point) => void;
   onMouseLeave: () => void;
 };
 

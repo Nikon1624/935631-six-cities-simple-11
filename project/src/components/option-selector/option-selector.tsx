@@ -7,7 +7,7 @@ type OptionSelectorProps = {
   onChange: (id: number) => void;
 };
 
-export const OptionSelector: React.FC<OptionSelectorProps> = ({ options, onChange }) => {
+const OptionSelector: React.FC<OptionSelectorProps> = ({ options, onChange }) => {
   const [isOpened, setIsOpened] = useActiveItem<boolean>(false);
   const activeOption = options.find((option) => option.isActive) ?? options[0];
 
@@ -46,3 +46,5 @@ export const OptionSelector: React.FC<OptionSelectorProps> = ({ options, onChang
     </form>
   );
 };
+
+export default React.memo(OptionSelector);
