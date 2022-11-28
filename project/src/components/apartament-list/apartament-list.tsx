@@ -1,11 +1,10 @@
 import React from 'react';
 import { ApartamentCard } from '../apartament-card/apartament-card';
-import { ApartamentCardType } from '../../types/card-types';
-import { PointType } from '../../types/city-types';
+import { Offer, Point } from '../../types/offer-types';
 
 type ApartamentListProps = {
-  apartamentList: ApartamentCardType[];
-  onMouseEnter: (point: PointType) => void;
+  apartamentList: Offer[];
+  onMouseEnter: (point: Point) => void;
   onMouseLeave: () => void;
 };
 

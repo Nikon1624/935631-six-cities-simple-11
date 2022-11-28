@@ -1,29 +1,34 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../types/app-route';
-import { ApartamentCardType } from '../../types/card-types';
-import { NearPlaceType } from '../../types/card-types';
-import { PointType } from '../../types/city-types';
+import { Point, Offer } from '../../types/offer-types';
 
 export type ApartamentCardProps = {
-  onMouseEnter: (point: PointType) => void;
+  onMouseEnter: (point: Point) => void;
   onMouseLeave: () => void;
-} & (ApartamentCardType | NearPlaceType);
+} & (Offer);
 
 export const ApartamentCard: React.FC<ApartamentCardProps> = ({
-  mark,
   id,
-  imgUrl,
-  price,
-  ratingPercent,
-  description,
   type,
+  title,
+  city,
+  price,
+  description,
+  images,
+  bedrooms,
+  goods,
+  host,
+  isPremium,
+  location,
+  maxAdults,
+  previewImage,
+  rating,
   onMouseEnter,
   onMouseLeave,
-  coordinates,
 }) => {
   const handleMouseEnter = () => {
-    onMouseEnter(coordinates);
+    onMouseEnter({ ...location, id });
   };
 
   const handleMouseLeave = () => {
@@ -32,10 +37,10 @@ export const ApartamentCard: React.FC<ApartamentCardProps> = ({
 
   return (
     <article className="cities__card place-card" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-      { mark && <div className="place-card__mark"><span>{ mark }</span></div> }
+      { isPremium && <div className="place-card__mark"><span>Premium</span></div> }
       <div className="cities__image-wrapper place-card__image-wrapper">
         <Link to={`${AppRoute.Offer}/${id}`}>
-          <img className="place-card__image" src={imgUrl} width="260" height="200" alt="Place" />
+          <img className="place-card__image" src={previewImage} width="260" height="200" alt="Place" />
         </Link>
       </div>
       <div className="place-card__info">
@@ -48,7 +53,7 @@ export const ApartamentCard: React.FC<ApartamentCardProps> = ({
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{ width: `${ratingPercent}%` }} />
+            <span style={{ width: `${rating}%` }} />
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
