@@ -1,6 +1,7 @@
 import { createAction } from '@reduxjs/toolkit';
 import { AuthStatus } from '../types/auth-status';
 import { Offer, City, Comment } from '../types/offer-types';
+import { UserData } from '../types/user-data';
 
 export const changeActiveCity = createAction<City | null>('city/changeCity');
 
@@ -17,5 +18,7 @@ export const setComments = createAction<Comment[]>('data/setComments');
 export const setCities = createAction<City[]>('data/setCities');
 
 export const requireAuthStatus = createAction<AuthStatus>('user/requireAuthStatus');
+
+export const setUserData = createAction<UserData>('user/setUserData');
 
 export const redirectToRoute = createAction<string>('route/redirectToRoute');

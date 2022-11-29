@@ -1,10 +1,12 @@
-import { useState, useCallback, ChangeEvent, FormEvent } from 'react';
+import React, { useState, useCallback, ChangeEvent, FormEvent } from 'react';
 import { ReviewRating } from '../review-rating/review-rating';
 import { RatingStarType } from '../../types/rating-star-types';
+import { useAppDispatch } from '../../hooks/index';
+import { sendCommentAction } from '../../store/api-actions';
+import { FormData } from '../../types/review-form-data';
 
-type FormData = {
-  reviewRating: number;
-  reviewText: string;
+type FeedbackFormProps = {
+  hotelId: string;
 };
 
 const ratingStars: RatingStarType[] = [
@@ -30,38 +32,50 @@ const ratingStars: RatingStarType[] = [
   },
 ];
 
-export const FeedbackForm = () => {
-  const [formData, setFormData] = useState<FormData>({
-    reviewRating: -1,
-    reviewText: '',
-  });
+const initialFormData: FormData = {
+  rating: -1,
+  comment: '',
+};
+
+export const FeedbackForm: React.FC<FeedbackFormProps> = ({ hotelId }) => {
+  const dispatch = useAppDispatch();
+
+  const [formData, setFormData] = useState<FormData>(initialFormData);
 
   const MIN_MESSAGE_LENGTH = 50;
-  const submitDisabled = formData.reviewText.length < MIN_MESSAGE_LENGTH || formData.reviewRating === -1;
+  const submitDisabled = formData.comment.length < MIN_MESSAGE_LENGTH || formData.rating === -1;
 
   const handleRatingChange = useCallback((id: number) => {
-    setFormData({ ...formData, reviewRating: id });
+    setFormData({ ...formData, rating: id });
   }, [formData]);
 
   const handleReviewTextChange = (evt: ChangeEvent<HTMLTextAreaElement>) => {
     const message = evt.target.value;
-    setFormData({ ...formData, reviewText: message });
+    setFormData({ ...formData, comment: message });
   };
 
   const handleFormSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
+
+    const reviewData = {
+      hotelId,
+      formData,
+    };
+
+    dispatch(sendCommentAction(reviewData));
+    setFormData(initialFormData);
   };
 
   return (
     <form className="reviews__form form" onSubmit={handleFormSubmit}>
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
-      <ReviewRating ratingStars={ratingStars} value={formData.reviewRating} onChange={handleRatingChange} />
+      <ReviewRating ratingStars={ratingStars} value={formData.rating} onChange={handleRatingChange} />
       <textarea
         className="reviews__textarea form__textarea"
         id="review"
         name="review"
         placeholder="Tell how was your stay, what you like and what can be improved"
-        value={formData.reviewText}
+        value={formData.comment}
         onChange={handleReviewTextChange}
       />
       <div className="reviews__button-wrapper">

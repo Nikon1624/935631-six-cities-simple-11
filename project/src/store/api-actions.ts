@@ -7,8 +7,9 @@ import { AuthStatus } from '../types/auth-status';
 import { Offer, City, Comment } from '../types/offer-types';
 import { AppDispatch, StateType } from '../types/state-types';
 import { UserData } from '../types/user-data';
+import { FormData } from '../types/review-form-data';
 import { setToken, removeToken } from '../utils/token';
-import { setOffers, setOffer, requireAuthStatus, setCities, changeActiveCity, changeLoadingStatus, setNearPlaces, setComments, redirectToRoute } from './actions';
+import { setOffers, setOffer, requireAuthStatus, setCities, changeActiveCity, changeLoadingStatus, setNearPlaces, setComments, redirectToRoute, setUserData } from './actions';
 
 export const fetchOffersAction = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch;
@@ -82,9 +83,10 @@ export const loginAction = createAsyncThunk<void, AuthData, {
 }>(
   'user/login',
   async ({ login: email, password }, { dispatch, extra: api }) => {
-    const { data: { token } } = await api.post<UserData>(ApiRoutes.Login, { email, password });
-    setToken(token);
+    const { data } = await api.post<UserData>(ApiRoutes.Login, { email, password });
+    setToken(data.token);
     dispatch(requireAuthStatus(AuthStatus.Auth));
+    dispatch(setUserData(data));
     dispatch(redirectToRoute(AppRoute.Root));
   },
 );
@@ -100,5 +102,22 @@ export const logoutAction = createAsyncThunk<void, undefined, {
     removeToken();
     dispatch(requireAuthStatus(AuthStatus.NoAuth));
     dispatch(redirectToRoute(AppRoute.Login));
+  },
+);
+
+export const sendCommentAction = createAsyncThunk<void,
+  {
+    hotelId: string;
+    formData: FormData;
+  },
+  {
+    dispatch: AppDispatch;
+    state: StateType;
+    extra: AxiosInstance;
+}>(
+  'data/sendComment',
+  async ({ hotelId, formData }, { dispatch, extra: api }) => {
+    const { data } = await api.post<Comment[]>(`${ApiRoutes.Comments}/${hotelId}`, formData);
+    dispatch(setComments(data));
   },
 );
