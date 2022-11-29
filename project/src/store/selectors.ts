@@ -1,6 +1,7 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { StateType } from '../types/state-types';
 import { Offer, City, Comment } from '../types/offer-types';
+import { AuthStatus } from '../types/auth-status';
 
 type Selector<S> = (state: StateType) => S;
 
@@ -11,6 +12,7 @@ export const getActiveOfferComments = (state: StateType): Comment[] | null => st
 export const getCities = (state: StateType): City[] => state.cities;
 export const getCity = (state: StateType): City | null => state.activeCity;
 export const getLoadingStatus = (state: StateType): boolean => state.loadingStatus;
+export const getAuthStatus = (state: StateType): AuthStatus => state.authStatus;
 
 export const getCityById = (id: string | undefined): Selector<City> =>
   createSelector(
