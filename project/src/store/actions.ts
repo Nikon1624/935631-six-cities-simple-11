@@ -18,4 +18,4 @@ export const setCities = createAction<City[]>('data/setCities');
 
 export const requireAuthStatus = createAction<AuthStatus>('user/requireAuthStatus');
 
-export const setError = createAction<string | null>('data/setError');
+export const redirectToRoute = createAction<string>('route/redirectToRoute');

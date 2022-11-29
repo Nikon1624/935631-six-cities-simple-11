@@ -11,7 +11,6 @@ type State = {
   activeOfferNearPlaces: Offer[] | null;
   activeOfferComments: Comment[] | null;
   authStatus: AuthStatus;
-  error: string | null;
   loadingStatus: boolean;
 };
 
@@ -23,7 +22,6 @@ const initialState: State = {
   activeOfferNearPlaces: null,
   activeOfferComments: null,
   authStatus: AuthStatus.Unknown,
-  error: null,
   loadingStatus: false,
 };
 
