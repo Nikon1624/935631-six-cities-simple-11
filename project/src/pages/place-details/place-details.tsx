@@ -9,15 +9,17 @@ import { ReviewList } from '../../components/place-property/place-reviews/review
 import { FeedbackForm } from '../../components/feedback-form/feedback-form';
 import { Map } from '../../components/map/map';
 import { Loader } from '../../components/loader/loader';
-import { getActiveOffer, getActiveOfferComments, getLoadingStatus, getCity, getNearPlacePoints, getActiveOfferNearPlaces } from '../../store/selectors';
+import { getActiveOffer, getActiveOfferComments, getLoadingStatus, getCity, getNearPlacePoints, getActiveOfferNearPlaces, getAuthStatus } from '../../store/selectors';
 import { fetchOneOfferAction } from '../../store/api-actions';
 import { NearPlaces } from '../../components/place-property/near-places/near-places';
 import { useActiveItem } from '../../hooks/use-active-item';
 import { Point } from '../../types/offer-types';
+import { AuthStatus } from '../../types/auth-status';
 
 export const PlaceDetails: React.FC = () => {
   const { id } = useParams();
   const dispatch = useAppDispatch();
+  const authStatus = useAppSelector(getAuthStatus);
   const city = useAppSelector(getCity);
   const loadingStatus = useAppSelector(getLoadingStatus);
   const offer = useAppSelector(getActiveOffer);
@@ -59,7 +61,7 @@ export const PlaceDetails: React.FC = () => {
             <PlaceHost host={offer.host} description={offer.description} />
             <section className="property__reviews reviews">
               <ReviewList reviews={comments} />
-              <FeedbackForm />
+              { authStatus === AuthStatus.Auth && <FeedbackForm hotelId={id as string} /> }
             </section>
           </div>
         </div>
