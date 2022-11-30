@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { useAppSelector } from '../../hooks/index';
-import { getCities } from '../../store/selectors';
+import { getCities } from '../../store/data-slice/selectors';
 
 export const CitiesNavigation: React.FC = () => {
   const cityList = useAppSelector(getCities);

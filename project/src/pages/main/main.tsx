@@ -8,9 +8,9 @@ import { Map } from '../../components/map/map';
 import OptionSelector from '../../components/option-selector/option-selector';
 import { Loader } from '../../components/loader/loader';
 import { City, Point } from '../../types/offer-types';
-import { changeActiveCity } from '../../store/actions';
+import { changeActiveCity } from '../../store/data-slice/data-slice';
 import { OptionSelectorType } from '../../types/option-selector-types';
-import { getCity, getOfferPoints, getOffers, getCityById, getLoadingStatus } from '../../store/selectors';
+import { getCity, getOfferPoints, getOffers, getCityById, getLoadingStatus } from '../../store/data-slice/selectors';
 
 
 const initialSelectOptions: OptionSelectorType[] = [

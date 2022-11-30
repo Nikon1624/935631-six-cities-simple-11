@@ -1,10 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { AppRoute } from '../../types/app-route';
 import { useAppDispatch, useAppSelector } from '../../hooks/index';
 import { logoutAction } from '../../store/api-actions';
-import { getAuthStatus } from '../../store/selectors';
-import { AuthStatus } from '../../types/auth-status';
+import { getAuthStatus } from '../../store/user-slice/selectors';
+import { AuthStatus, AppRoute } from '../../const';
 
 export const Header: React.FC = () => {
   const dispatch = useAppDispatch();
