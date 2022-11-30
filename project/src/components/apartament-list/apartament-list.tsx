@@ -8,7 +8,7 @@ type ApartamentListProps = {
   onMouseLeave: () => void;
 };
 
-export const ApartamentList: React.FC<ApartamentListProps> = ({ apartamentList, onMouseEnter, onMouseLeave }) => (
+const ApartamentListBase: React.FC<ApartamentListProps> = ({ apartamentList, onMouseEnter, onMouseLeave }) => (
   <div className="cities__places-list places__list tabs__content">
     {
       apartamentList.map((apartamentData) => (
@@ -22,3 +22,5 @@ export const ApartamentList: React.FC<ApartamentListProps> = ({ apartamentList, 
     }
   </div>
 );
+
+export const ApartamentList = React.memo(ApartamentListBase);

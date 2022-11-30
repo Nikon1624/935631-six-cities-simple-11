@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { AppRoute } from '../../types/app-route';
+import { AppRoute } from '../../const';
 
 export const NotFound = () => (
   <div className="property__gallery-container container">
