@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { AppRoute } from '../../types/app-route';
+import { AppRoute } from '../../const';
 import { Point, Offer } from '../../types/offer-types';
 
 export type ApartamentCardProps = {

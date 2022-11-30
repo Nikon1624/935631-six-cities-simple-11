@@ -6,7 +6,7 @@ import { Main } from '../../pages/main/main';
 import { Login } from '../../pages/login/login';
 import { PlaceDetails } from '../../pages/place-details/place-details';
 import { NotFound } from '../../pages/not-found/not-found';
-import { AppRoute } from '../../types/app-route';
+import { AppRoute } from '../../const';
 import { HistoryRouter } from '../history-router/history-router';
 import { browserHistory } from '../../utils/browser-history';
 
