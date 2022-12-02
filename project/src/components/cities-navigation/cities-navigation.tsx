@@ -16,7 +16,7 @@ export const CitiesNavigation: React.FC = () => {
                 className={({ isActive }) => isActive
                   ? 'locations__item-link tabs__item tabs__item--active'
                   : 'locations__item-link tabs__item' }
-                to={ i === 0 ? '/' : `/city/${city.name.toLowerCase()}`}
+                to={ i === 0 ? '/' : `/${city.name.toLowerCase()}`}
                 end
               >
                 <span>{ city.name }</span>

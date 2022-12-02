@@ -16,7 +16,7 @@ function App(): JSX.Element {
       <Routes>
         <Route path={AppRoute.Root} element={<DefaultLayout />}>
           <Route index element={<Main />} />
-          <Route path="city/:id" element={<Main />} />
+          <Route path=":id" element={<Main />} />
         </Route>
         <Route path={AppRoute.Login} element={<LoginLayout />}>
           <Route index element={<Login />} />

@@ -5,12 +5,14 @@ import { useAppDispatch } from '../../hooks/index';
 import { useActiveItem } from '../../hooks/use-active-item';
 import { ApartamentList } from '../../components/apartament-list/apartament-list';
 import { Map } from '../../components/map/map';
+import { MainEmpty } from '../main-empty/main-empty';
 import OptionSelector from '../../components/option-selector/option-selector';
 import { Loader } from '../../components/loader/loader';
 import { City, Point } from '../../types/offer-types';
 import { changeActiveCity } from '../../store/data-slice/data-slice';
 import { OptionSelectorType } from '../../types/option-selector-types';
 import { getCity, getOfferPoints, getOffers, getCityById, getLoadingStatus } from '../../store/data-slice/selectors';
+import { NotFound } from '../not-found/not-found';
 
 
 const initialSelectOptions: OptionSelectorType[] = [
@@ -48,7 +50,9 @@ export const Main: React.FC = () => {
   const [activePoint, changeActivePoint] = useActiveItem<Point | null>(null);
 
   useEffect(() => {
-    dispatch(changeActiveCity(cityById));
+    if (cityById) {
+      dispatch(changeActiveCity(cityById));
+    }
   }, [cityById, dispatch]);
 
   const onMouseEnter = useCallback((point: Point) => {
@@ -66,6 +70,14 @@ export const Main: React.FC = () => {
 
   if (loadingStatus) {
     return <Loader />;
+  }
+
+  if (!offers || !offers.length) {
+    return <MainEmpty />;
+  }
+
+  if (!cityById) {
+    return <NotFound />;
   }
 
   return (
