@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useActiveItem } from '../../hooks/use-active-item';
 import { OptionSelectorType } from '../../types/option-selector-types';
 
@@ -8,8 +8,22 @@ type OptionSelectorProps = {
 };
 
 const OptionSelector: React.FC<OptionSelectorProps> = ({ options, onChange }) => {
+  const formRef = useRef<HTMLFormElement | null>(null);
   const [isOpened, setIsOpened] = useActiveItem<boolean>(false);
   const activeOption = options.find((option) => option.isActive) ?? options[0];
+
+  useEffect(() => {
+    const handleOutClick = (evt: MouseEvent) => {
+      if (formRef.current) {
+        if (evt.target instanceof HTMLElement && !formRef.current?.contains(evt.target)) {
+          setIsOpened(false);
+        }
+      }
+    };
+
+    document.addEventListener('click', handleOutClick);
+    return () => document.removeEventListener('click', handleOutClick);
+  }, [setIsOpened]);
 
   const handleChangeSelectorOpenness = () => {
     setIsOpened(!isOpened);
@@ -21,7 +35,7 @@ const OptionSelector: React.FC<OptionSelectorProps> = ({ options, onChange }) =>
   };
 
   return (
-    <form className="places__sorting" action="#" method="get">
+    <form className="places__sorting" ref={formRef}>
       <span className="places__sorting-caption">Sort by </span>
       <span className="places__sorting-type" tabIndex={0} onClick={handleChangeSelectorOpenness}>
         { activeOption.title }

@@ -13,10 +13,16 @@ export const getCities = (state: StateType): City[] => state[NameSpace.Data].cit
 export const getCity = (state: StateType): City | null => state[NameSpace.Data].activeCity;
 export const getLoadingStatus = (state: StateType): boolean => state[NameSpace.Data].loadingStatus;
 
-export const getCityById = (id: string | undefined): Selector<City> =>
+export const getCityById = (id: string | undefined): Selector<City | undefined> =>
   createSelector(
     [getCities],
-    (cities) => cities.find((city) => city.name.toLowerCase() === id) ?? cities[0]
+    (cities) => {
+      if (!id) {
+        return cities[0];
+      }
+
+      return cities.find((city) => city.name.toLowerCase() === id);
+    }
   );
 
 export const getOffers = createSelector(

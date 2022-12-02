@@ -35,6 +35,9 @@ export const dataSlice = createSlice({
         state.activeCity = cities[0];
         state.loadingStatus = false;
       })
+      .addCase(fetchOffersAction.rejected, (state, action) => {
+        state.loadingStatus = false;
+      })
       .addCase(fetchOneOfferAction.pending, (state) => {
         state.loadingStatus = true;
       })
@@ -44,6 +47,9 @@ export const dataSlice = createSlice({
         state.activeOffer = offer;
         state.activeOfferNearPlaces = nearPlaces;
         state.activeOfferComments = comments;
+        state.loadingStatus = false;
+      })
+      .addCase(fetchOneOfferAction.rejected, (state, action) => {
         state.loadingStatus = false;
       })
       .addCase(sendCommentAction.fulfilled, (state, action) => {
