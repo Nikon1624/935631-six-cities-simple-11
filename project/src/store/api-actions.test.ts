@@ -5,7 +5,6 @@ import { configureMockStore } from '@jedmao/redux-mock-store';
 import { createApiClient } from '../services/api';
 import { ApiEndpoints } from '../const';
 import { StateType } from '../types/state-types';
-import { FormData } from '../types/review-form-data';
 import { getRandomOffer, getRandomOffers, getRandomComments } from '../utils/mocks';
 import { checkAuthAction, fetchOffersAction, fetchOneOfferAction, loginAction, logoutAction, sendCommentAction } from './api-actions';
 import { AuthData } from '../types/auth-data';

@@ -11,7 +11,7 @@ describe('Component: NotFound', () => {
       <HistoryRouter history={history}>
         <NotFound />
       </HistoryRouter>
-    )
+    );
 
     const headerElement = screen.getByText('Page Not Found 404');
     const linkElement = screen.getByText('Go to main');

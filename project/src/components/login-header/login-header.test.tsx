@@ -6,15 +6,15 @@ import { LoginHeader } from './login-header';
 describe('Component: login-header', () => {
   it('should be render correctly', () => {
     const history = createMemoryHistory();
-    
+
     render(
       <HistoryRouter history={history}>
         <LoginHeader />
       </HistoryRouter>
     );
-    
+
     const logo = screen.getByTestId('logo_img');
-    
+
     expect(logo).toBeInTheDocument();
   });
 });

@@ -1,4 +1,4 @@
-import { address, lorem, name, internet, image, datatype, date } from 'faker';
+import { address, lorem, name, internet, image, datatype } from 'faker';
 import { City, Offer, Comment } from '../types/offer-types';
 import { UserData } from '../types/user-data';
 
@@ -35,7 +35,7 @@ export const getRandomOffer = (): Offer => ({
     avatarUrl: internet.avatar(),
     isPro: datatype.boolean(),
   },
-  images: new Array(10).fill(null).map(() => image.image()),
+  images: new Array(10).fill(null).map((_, i) => `${i}-${image.image()}`),
   isPremium: datatype.boolean(),
   maxAdults: datatype.number(),
   previewImage: image.image(),

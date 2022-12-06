@@ -87,16 +87,6 @@ describe('Routing', () => {
     expect(passwordText).toBeInTheDocument();
   });
 
-  it('should be render Main page with correctly city when navigate to "/:cityId"', () => {
-    history.push(`${AppRoute.Root}${cities[0].name}`);
-
-    render(fakeApp);
-
-    const cityName = screen.getByText(cities[0].name);
-
-    expect(cityName).toBeInTheDocument();
-  });
-
   it('should be render PlaceDetails page when navigate to "/offer:id"', () => {
     history.push(`${AppRoute.Offer}/${offers[0].id}`);
     const id = offers[0].id;
@@ -105,7 +95,7 @@ describe('Routing', () => {
       .onGet(`${ApiEndpoints.Offers}/${id}`).reply(200, offers[0])
       .onGet(`${ApiEndpoints.Offers}/${id}/nearby`).reply(200, offers)
       .onGet(`${ApiEndpoints.Comments}/${id}`).reply(200, comments);
-    
+
     render(fakeApp);
 
     const offerDescription = screen.getByText(offers[0].description);
