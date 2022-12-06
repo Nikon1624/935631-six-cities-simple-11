@@ -7,28 +7,24 @@ import { Login } from '../../pages/login/login';
 import { PlaceDetails } from '../../pages/place-details/place-details';
 import { NotFound } from '../../pages/not-found/not-found';
 import { AppRoute } from '../../const';
-import { HistoryRouter } from '../history-router/history-router';
-import { browserHistory } from '../../utils/browser-history';
 
 function App(): JSX.Element {
   return (
-    <HistoryRouter history={browserHistory}>
-      <Routes>
-        <Route path={AppRoute.Root} element={<DefaultLayout />}>
-          <Route index element={<Main />} />
-          <Route path=":id" element={<Main />} />
-        </Route>
-        <Route path={AppRoute.Login} element={<LoginLayout />}>
-          <Route index element={<Login />} />
-        </Route>
-        <Route path={`${AppRoute.Offer}`} element={<WithoutCitiesLayout />}>
-          <Route path=":id" element={<PlaceDetails />} />
-        </Route>
-        <Route path="*" element={<LoginLayout />}>
-          <Route path="*" element={<NotFound />} />
-        </Route>
-      </Routes>
-    </HistoryRouter>
+    <Routes>
+      <Route path={AppRoute.Root} element={<DefaultLayout />}>
+        <Route index element={<Main />} />
+        <Route path=":id" element={<Main />} />
+      </Route>
+      <Route path={AppRoute.Login} element={<LoginLayout />}>
+        <Route index element={<Login />} />
+      </Route>
+      <Route path={`${AppRoute.Offer}`} element={<WithoutCitiesLayout />}>
+        <Route path=":id" element={<PlaceDetails />} />
+      </Route>
+      <Route path="*" element={<LoginLayout />}>
+        <Route path="*" element={<NotFound />} />
+      </Route>
+    </Routes>
   );
 }
 

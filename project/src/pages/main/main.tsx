@@ -83,13 +83,13 @@ export const Main: React.FC = () => {
   return (
     <div className="cities">
       <div className="cities__places-container container">
-        <section className="cities__places places">
+        <section className="cities__places places" data-testid="places_wrapper">
           <h2 className="visually-hidden">Places</h2>
           <b className="places__found">{ offers.length } places to stay in { city && city.name }</b>
           <OptionSelector options={selectOptions} onChange={onChangeActiveSelectorOption} />
           <ApartamentList apartamentList={offers} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} />
         </section>
-        <div className="cities__right-section">
+        <div className="cities__right-section" data-testid="map_wrapper">
           <section className="cities__map map">
             <Map city={city as City} points={offerPoints} selectedPoint={activePoint} />
           </section>
