@@ -26,6 +26,7 @@ export const userSlice = createSlice({
       })
       .addCase(logoutAction.fulfilled, (state) => {
         state.authStatus = AuthStatus.NoAuth;
+        state.userData = null;
       });
   },
 });
